@@ -1,0 +1,79 @@
+0x000:                      | 	.pos 0
+0x000: 30f4f00f000000000000 | 	irmovq stack, %rsp
+0x00a: 801400000000000000   | 	call main
+0x013: 00                   | 	halt
+                            | 
+0x014:                      | main:
+0x014: 30f20100000000000000 | 	irmovq $1, %rdx		#store constant 1 for loop
+0x01e: 30f30800000000000000 | 	irmovq $8, %rbx		#store constant 8 for stacks
+0x028: 30f70400000000000000 | 	irmovq $4, %rdi 	#storing n/j to memeory
+0x032: 30f60000000000000000 | 	irmovq $0, %rsi		#storing i to memory
+0x03c: 30f5a004000000000000 | 	irmovq arr, %rbp
+0x046: 80aa00000000000000   | 	call arrInitial
+0x04f: 806300000000000000   | 	call palindrome
+0x058: 30f00100000000000000 | 	irmovq $1, %rax
+0x062: 90                   | 	ret
+                            | 	
+0x063:                      | palindrome:
+0x063: 2069                 | 	rrmovq %rsi, %r9
+0x065: 6026                 | 	addq %rdx, %rsi
+                            | 	
+0x067: 6179                 | 	subq %rdi, %r9
+0x069: 727300000000000000   | 	jl comp
+                            | 	
+0x072: 90                   | 	ret
+                            | 	
+                            | 
+0x073:                      | comp:
+                            | 	#pushq %r10		#end of arr - opt
+                            | 	#pushq %rbp		#start of arr - opt
+                            | 
+0x073: 50850000000000000000 | 	mrmovq (%rbp), %r8	#getting value at bottom of stack
+0x07d: 50ba0000000000000000 | 	mrmovq (%r10), %r11	#getting value at top of stack
+                            | 	
+0x087: 618b                 | 	subq %r8, %r11
+0x089: 749f00000000000000   | 	jne false		#not palindrome
+                            | 
+0x092: 613a                 | 	subq %rbx, %r10		#next value
+0x094: 6035                 | 	addq %rbx, %rbp		#prev value
+                            | 	
+0x096: 706300000000000000   | 	jmp palindrome
+                            | 	
+                            | 
+0x09f:                      | false:
+0x09f: 30f00200000000000000 | 	irmovq $2, %rax
+0x0a9: 00                   | 	halt
+                            | 
+                            | 
+0x0aa:                      | arrInitial:
+0x0aa: a05f                 | 	pushq %rbp
+0x0ac: 30f80100000000000000 | 	irmovq $1, %r8
+0x0b6: 40850000000000000000 | 	rmmovq %r8, (%rbp)	#storing val1 into %rbp
+0x0c0: 6035                 | 	addq %rbx, %rbp		#increment 8
+                            | 
+0x0c2: 30f80200000000000000 | 	irmovq $2, %r8
+0x0cc: 40850000000000000000 | 	rmmovq %r8, (%rbp)
+0x0d6: 6035                 | 	addq %rbx, %rbp
+                            | 
+0x0d8: 30f80500000000000000 | 	irmovq $5, %r8
+0x0e2: 40850000000000000000 | 	rmmovq %r8, (%rbp)
+0x0ec: 6035                 | 	addq %rbx, %rbp
+                            | 
+0x0ee: 30f80200000000000000 | 	irmovq $2, %r8
+0x0f8: 40850000000000000000 | 	rmmovq %r8, (%rbp)
+0x102: 6035                 | 	addq %rbx, %rbp
+                            | 
+0x104: 30f80100000000000000 | 	irmovq $1, %r8
+0x10e: 40850000000000000000 | 	rmmovq %r8, (%rbp)
+0x118: 205a                 | 	rrmovq %rbp, %r10	#storing address of last element
+                            | 	
+0x11a: b05f                 | 	popq %rbp
+0x11c: 90                   | 	ret
+                            | 
+                            | 
+                            | 
+0x4a0:                      | 	.pos 0x4a0		#address of first element
+0x4a0:                      | arr:
+                            | 
+0xff0:                      | 	.pos 0xff0
+0xff0:                      | stack:

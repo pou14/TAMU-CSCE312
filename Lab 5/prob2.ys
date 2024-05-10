@@ -1,0 +1,34 @@
+irmovq $0x200, %rsp
+call main
+
+main:
+	irmovq $0x03, %rdi	#setting j = 3
+	pushq %rdi		#push j to stack
+	irmovq $0x05, %rsi	#setting k = 5
+	pushq %rsi		#push k to stack
+	irmovq $0x04, %rbx 	#setting i = 4
+	pushq %rbx		#push i to stack
+	pushq %rcx 		#temp value
+	jmp loop		#jump to loop
+	
+loop:
+	rrmovq	%rbx, %rcx	#i to temp
+	addq %rcx, %rcx		#temp = i + i => i * 2
+	rrmovq %rcx, %rdi	#j = temp
+	
+	pushq %rbp		#temp value
+	rrmovq %rdi, %rbp	#%rbp = j
+	pushq %r8		#temp value
+	irmovq $0x04, %r8	#%r8 = 4
+	subq %r8, %rbp		#temp = %rbp - 4
+	rrmovq %rbp, %rsi	#k = temp
+	popq %rbp		#remove temp
+	popq %r8		#remove temp
+
+	#check rest to loop or not
+
+	
+	
+	
+	
+	

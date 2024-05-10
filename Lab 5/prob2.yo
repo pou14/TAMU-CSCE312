@@ -1,0 +1,31 @@
+0x000: 30f40002000000000000 | irmovq $0x200, %rsp
+0x00a: 801300000000000000   | call main
+                            | 
+0x013:                      | main:
+0x013: 30f70300000000000000 | 	irmovq $0x03, %rdi	#setting j = 3
+0x01d: a07f                 | 	pushq %rdi		#push j to stack
+0x01f: 30f60500000000000000 | 	irmovq $0x05, %rsi	#setting k = 5
+0x029: a06f                 | 	pushq %rsi		#push k to stack
+0x02b: 30f30400000000000000 | 	irmovq $0x04, %rbx 	#setting i = 4
+0x035: a03f                 | 	pushq %rbx		#push i to stack
+0x037: a01f                 | 	pushq %rcx 		#temp value
+0x039: 704200000000000000   | 	jmp loop		#jump to loop
+                            | 	
+0x042:                      | loop:
+0x042: 2031                 | 	rrmovq	%rbx, %rcx	#i to temp
+0x044: 6011                 | 	addq %rcx, %rcx		#temp = i + i => i * 2
+0x046: 2017                 | 	rrmovq %rcx, %rdi	#j = temp
+                            | 	
+0x048: a05f                 | 	pushq %rbp		#temp value
+0x04a: 2075                 | 	rrmovq %rdi, %rbp	#%rbp = j
+0x04c: a08f                 | 	pushq %r8		#temp value
+0x04e: 30f80400000000000000 | 	irmovq $0x04, %r8	#%r8 = 4
+0x058: 6185                 | 	subq %r8, %rbp		#temp = %rbp - 4
+0x05a: 2056                 | 	rrmovq %rbp, %rsi	#k = temp
+0x05c: b05f                 | 	popq %rbp		#remove temp
+0x05e: b08f                 | 	popq %r8		#remove temp
+                            | 
+                            | 	
+                            | 	
+                            | 	
+                            | 	

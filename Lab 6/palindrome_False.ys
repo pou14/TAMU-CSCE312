@@ -1,0 +1,79 @@
+	.pos 0
+	irmovq stack, %rsp
+	call main
+	halt
+
+main:
+	irmovq $1, %rdx		#store constant 1 for loop
+	irmovq $8, %rbx		#store constant 8 for stacks
+	irmovq $4, %rdi 	#storing n/j to memeory
+	irmovq $0, %rsi		#storing i to memory
+	irmovq arr, %rbp
+	call arrInitial
+	call palindrome
+	irmovq $1, %rax
+	ret
+	
+palindrome:
+	rrmovq %rsi, %r9
+	addq %rdx, %rsi
+	
+	subq %rdi, %r9
+	jl comp
+	
+	ret
+	
+
+comp:
+	#pushq %r10		#end of arr - opt
+	#pushq %rbp		#start of arr - opt
+
+	mrmovq (%rbp), %r8	#getting value at bottom of stack
+	mrmovq (%r10), %r11	#getting value at top of stack
+	
+	subq %r8, %r11
+	jne false		#not palindrome
+
+	subq %rbx, %r10		#next value
+	addq %rbx, %rbp		#prev value
+	
+	jmp palindrome
+	
+
+false:
+	irmovq $2, %rax
+	halt
+
+
+arrInitial:
+	pushq %rbp
+	irmovq $1, %r8
+	rmmovq %r8, (%rbp)	#storing val1 into %rbp
+	addq %rbx, %rbp		#increment 8
+
+	irmovq $2, %r8
+	rmmovq %r8, (%rbp)
+	addq %rbx, %rbp
+
+	irmovq $5, %r8
+	rmmovq %r8, (%rbp)
+	addq %rbx, %rbp
+
+	irmovq $3, %r8
+	rmmovq %r8, (%rbp)
+	addq %rbx, %rbp
+
+	irmovq $1, %r8
+	rmmovq %r8, (%rbp)
+	rrmovq %rbp, %r10	#storing address of last element
+	
+	popq %rbp
+	ret
+
+
+
+	.pos 0x4a0		#address of first element
+arr:
+
+	.pos 0xff0
+stack:

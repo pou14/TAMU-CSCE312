@@ -1,0 +1,32 @@
+irmovq $0x200, %rsp		#set stack pointer
+call main			#compile main
+
+main:
+	irmovq $0x01, %rdi	#i stored in %rdi, setting i = 1
+	irmovq $0x02, %rsi	#j stored in %rsi, setting j = 2
+	
+	rrmovq %rdi, %rdx	#temp val stored in %rdx, temp = i
+	subq %rsi, %rdx 	#temp = temp(i) - j
+	jg L4			#jump if i > j
+	
+	irmovq $0x07, %rdi	#set i = 7
+	irmovq $0x01, %rdx	#temp = 1
+	addq %rdx, %rsi		#j++
+	jmp end			#jump to end
+	
+L4:
+	irmovq $0x03, %rdx	#temp = 3
+	subq %rdx, %rdi		#i = i - temp
+	
+	irmovq $0x04, %rdx	#temp = 4
+	addq %rdx, %rsi		#j = j + temp
+	
+
+end:
+	pushq %rdi		#push i to stack
+	pushq %rsi		#push j to stack
+	halt
+	
+	
+	
+	

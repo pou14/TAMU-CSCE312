@@ -1,0 +1,29 @@
+.pos 0
+main:
+	irmovq $0x01, %rdi	#setting i = 1
+	push %rdi		#push i to stack
+	irmovq $0x08, %rsi	#setting j = 8
+	pushq %rsi		#push j to stack
+	
+	pushq %rdx 		#temp value 
+	rrmovq %rdi, %rdx	#%rdx now stores %rdi val
+	subq %rsi, %rdx 	#i - j
+	popq %rdx
+	jg L4			#jump if i > j
+
+	irmovq &0x07, %rdi	#set i = 7
+	addq $0x01, %rsi	#j++
+	jmp end			#jump to end
+	
+L4:
+	subq $0x03, %rdi	#i = i - 3
+	addq $0x04, %rsi	#j = j + 4
+
+end:
+	popq %rdi
+	popq %rsi
+	halt
+	
+	
+	
+	

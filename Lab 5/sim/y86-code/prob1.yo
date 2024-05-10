@@ -1,0 +1,37 @@
+0x000: 30f40002000000000000 | irmovq $0x200, %rsp
+0x00a: 801300000000000000   | call main
+                            | 
+0x013:                      | main:
+                            | 	
+0x013: a07f                 | 	pushq %rdi		#push i to stack
+0x015: a06f                 | 	pushq %rsi		#push j to stack
+0x017: 30f70100000000000000 | 	irmovq $0x01, %rdi	#setting i = 1
+0x021: 30f60200000000000000 | 	irmovq $0x02, %rsi	#setting j = 2
+                            | 	
+                            | 	
+0x02b: a02f                 | 	pushq %rdx 		#temp value 
+0x02d: 2072                 | 	rrmovq %rdi, %rdx	#%rdx now stores %rdi val
+0x02f: 6162                 | 	subq %rsi, %rdx 	#i - j
+0x031: b02f                 | 	popq %rdx		#remove temp
+0x033: 765900000000000000   | 	jg L4			#jump if i > j
+                            | 	
+0x03c: 30f70700000000000000 | 	irmovq $0x07, %rdi	#set i = 7
+0x046: c0f60100000000000000 | 	iaddq $0x01, %rsi	#j++
+0x050: 707300000000000000   | 	jmp end			#jump to end
+                            | 	
+0x059:                      | L4:
+0x059: a02f                 | 	pushq %rdx		#temp value
+0x05b: 30f20300000000000000 | 	irmovq $0x03, %rdx	#%rdx = 3
+0x065: 6127                 | 	subq %rdx, %rdi		#i = i - 3
+0x067: b02f                 | 	popq %rdx		#remove temp
+                            | 
+0x069: c0f60400000000000000 | 	iaddq $0x04, %rsi	#j = j + 4
+                            | 	
+                            | 
+0x073:                      | end:
+0x073: b07f                 | 	popq %rdi
+0x075: b06f                 | 	popq %rsi
+0x077: 00                   | 	halt
+                            | 	
+                            | 	
+                            | 	

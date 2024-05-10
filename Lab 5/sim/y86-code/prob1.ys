@@ -1,0 +1,36 @@
+irmovq $0x200, %rsp
+call main
+
+main:
+	irmovq $0x01, %rdi	#setting i = 1
+	pushq %rdi		#push i to stack
+	irmovq $0x02, %rsi	#setting j = 2
+	pushq %rsi		#push j to stack
+	
+	pushq %rdx 		#temp value 
+	rrmovq %rdi, %rdx	#%rdx now stores %rdi val
+	subq %rsi, %rdx 	#i - j
+	popq %rdx		#remove temp
+	jg L4			#jump if i > j
+	
+	irmovq $0x07, %rdi	#set i = 7
+	iaddq $0x01, %rsi	#j++
+	jmp end			#jump to end
+	
+L4:
+	pushq %rdx		#temp value
+	irmovq $0x03, %rdx	#%rdx = 3
+	subq %rdx, %rdi		#i = i - 3
+	popq %rdx		#remove temp
+
+	iaddq $0x04, %rsi	#j = j + 4
+	
+
+end:
+	popq %rdi		#push i to stack
+	popq %rsi		#push j to stack
+	halt
+	
+	
+	
+	
